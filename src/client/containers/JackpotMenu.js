@@ -14,7 +14,7 @@ import {apiGetServers} from 'api/actions';
 import AboutWindow from 'components/AboutWindow';
 import ConfirmationDialog from 'components/ConfirmationDialog';
 
-export class AppMenu extends React.Component {
+export class JackpotMenu extends React.Component {
   static propTypes = {
     doLogout: PropTypes.func.isRequired,
     showAboutWindow: PropTypes.func.isRequired,
@@ -49,7 +49,7 @@ export class AppMenu extends React.Component {
           desktop
           iconButtonElement={
             <FlatButton
-              label="User Account"
+              label="More Jackpots"
               labelPosition="before"
               style={{color: 'white'}}
               icon={<NavigationExpandMoreIcon color="white" />}
@@ -58,7 +58,7 @@ export class AppMenu extends React.Component {
           anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem primaryText="Log in" leftIcon={<ActionExitToAppIcon />} onClick={this.onShowLogoutConfirmation} />
+          <MenuItem primaryText="Log out" leftIcon={<ActionExitToAppIcon />} onClick={this.onShowLogoutConfirmation} />
           <MenuItem primaryText="Help" leftIcon={<ActionHelpOutlineIcon />} />
           <MenuItem primaryText="About" leftIcon={<ActionInfoOutlineIcon />} onClick={this.onShowAboutWindow} />
         </IconMenu>
@@ -85,4 +85,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(AppMenu);
+export default connect(null, mapDispatchToProps)(JackpotMenu);

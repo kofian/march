@@ -5,7 +5,8 @@ const setupApiRoutes = require('./middlewares/api');
 const logger = require('./logger');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-process.env.HTTP_PORT = process.env.HTTP_PORT || 3000;
+process.env.HTTP_PORT = process.env.HTTP_PORT || 8080;
+//process.env.HTTP_PORT = process.env.HTTP_PORT || 3000;
 
 function onUnhandledError(err) {
   try {

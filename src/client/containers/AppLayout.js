@@ -9,6 +9,10 @@ import AppMenu from 'containers/AppMenu';
 import ModalsLayout from 'containers/ModalsLayout/index';
 import NotFound from 'containers/NotFound';
 import ServersPage from 'containers/ServersPage/index';
+import EuroMillionsBar from 'containers/LotteriesPage/EuroMillionsBar';
+import MegaMillionsLayout from 'containers/LotteriesPage/MegaMillionsLayout';
+import EuroMillionsLayout from 'containers/LotteriesPage/EuroMillionsLayout';
+import EuroMillionsGoLayout from 'containers/LotteriesPage/EuroMillionsGoLayout';
 import ProgressBar from 'components/ProgressBar';
 
 export class AppLayout extends React.Component {
@@ -29,7 +33,10 @@ export class AppLayout extends React.Component {
         </Paper>
         <section style={{paddingTop: 50}}>
           <Switch>
-            <Route exact path="/" component={ServersPage} />
+            <Route exact path="/" component={EuroMillionsLayout} />
+            <Route exact path="/euromillionslayout" name="euromillionslayout" component={EuroMillionsLayout} />
+            <Route exact path="/megamillionslayout" name="megamillions" component={MegaMillionsLayout} />
+            <Route exact path="/euromillionsgolayout" name="euromillionsgo" component={EuroMillionsGoLayout} />
             <Route exact path="/users" name="home-users" component={NotFound} />
             <Redirect to="/" />
           </Switch>
