@@ -52,7 +52,7 @@ export class AppMenu extends React.Component {
               label="User Account"
               labelPosition="before"
               style={{color: 'white'}}
-              icon={<NavigationExpandMoreIcon color="white" />}
+              icon={<NavigationExpandMoreIcon />}
             />
           }
           anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}

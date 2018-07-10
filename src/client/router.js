@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import AppLayout from 'containers/AppLayout';
 import LoginForm from 'containers/LoginForm';
-import EuroMillions from 'containers/LotteriesPage/EuroMillions';
+import EuroMillions from 'containers/EuroMillions/EuroMillions';
 
 export default function() {
   return (

@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -11,6 +13,8 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {grey300} from 'material-ui/styles/colors';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import * as actions from 'Constants/Customer.Actions';
 //import CustomizedSwitches from './CustomizedSwitches';
 
 
@@ -74,16 +78,36 @@ const stylos = {
     justify: 'center',
     alignItems: 'center'
   },
+  circleStyle: {
+      borderRadius: "50%",
+      borderColor: grey300,
+      width:40,
+      height:40,
+      justify:"center",
+      alignItems: 'center',
+      fontSize: 12,
+      textAlign: 'center',
+      display: 'flex'
+  }
 };
-class EuroMillions extends React.Component {
+class EuroMillionsGo extends React.Component {
   state = {
     spacing: '16',
-    jackpot_0: '0',
-    jackpot_1: '0',
-    jackpot_2: '0',
-    jackpot_3: '0',
-    jackpot_4: '0',
-    jackpot_5: '0',
+    jackpot_0: 0,
+    jackpot_1: 0,
+    jackpot_2: 0,
+    jackpot_3: 0,
+    jackpot_4: 0,
+    jackpot_5: 0,
+    lottoJackpot: 0,
+    marketingJackpot: 2,
+    doubleJackpotAllowed: false,
+    drawingType: 'TV',
+    lotteryId: 'EuroMillionsGO',
+    drawingDate: "2018-07-27T17:30:00.000+0000",
+    closingDate: "2018-07-17T17:30:00.000+0000",
+    state: "IN_PLAY",
+    price: '€ 35.50'
   };
 
   handleClickChange = key => (event,value) => {
@@ -97,39 +121,101 @@ class EuroMillions extends React.Component {
     this.setState({ [name]: event.target.checked });
   };
   
+  _submitLotto(){
+    const user_id = this.props.userId;
+    debugger;
+    const {lotteryId,drawingDate,closingDate,state,doubleJackpotAllowed,
+     drawingType, jackpot_0, jackpot_1, jackpot_2, jackpot_3, jackpot_4, jackpot_5,
+     lottoJackpot,marketingJackpot,price} = this.state;
+    const values = {user_id,lotteryId,drawingDate,closingDate,state,doubleJackpotAllowed,
+     drawingType, jackpot_0, jackpot_1, jackpot_2, jackpot_3, jackpot_4, jackpot_5,
+     lottoJackpot,marketingJackpot,price};
+    console.log(values);
+      this.props.actions.playLotto(values);
+   }
+   _delNumbers(){
+    this.setState({jackpot_0: 0});
+    this.setState({jackpot_1: 0});
+    this.setState({jackpot_2: 0});
+    this.setState({jackpot_3: 0});
+    this.setState({jackpot_4: 0});
+    this.setState({jackpot_5: 0});
+  }
+  
   render() {
       //debugger;
-    const { classes} = this.props;
+    const { classes,lotto} = this.props;
     const { spacing} = this.state;
 
     return (
      <section style={{padding: 20}}>
       <Grid container className={classes.root} spacing={16} justify="center">
       
-        <Grid item xs={12}>
+      <Grid container className={classes.control} justify="center">
+        <Grid item xs={1}/>
+        <Grid item xs={10}>
           <Paper className={classes.control}>
             <Grid container justify="center">
-            <Grid item xs={6} />
+            <Grid item xs={6}>
+              <Button size="small" variant="contained" color="primary" style={{margin:10}} 
+                onClick={this._submitLotto.bind(this)}>
+                Submit Your Winning Numbers {this.props.emailID}
+               <NavigationExpandMoreIcon style={{marginLeft:10}}/>
+              </Button>
+            </Grid>
               <Grid item xs={6} >
-                <Typography component="p">
-                <FormLabel>Your Choice Numbers</FormLabel>{' : '}{' '}
-                 {this.state.jackpot_0}{' '}{this.state.jackpot_1}{' '}{this.state.jackpot_2}{' '}
-                 {this.state.jackpot_3}{' '}{this.state.jackpot_4}{' '}{this.state.jackpot_5}
-                </Typography>
+              <Grid container className={classes.demo} justify="center" spacing={16}>
+              <FormLabel>Your Choice Numbers</FormLabel>{' : '}{' '}
+              </Grid>
+              <Grid container className={classes.demo} justify="center" style={{margin:10}} spacing={16}>
+              
+                <Grid item xs={1}>
+                 <Paper className={classes.control} style={stylos.circleStyle}>
+                 {this.state.jackpot_0}
+                 </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                 <Paper className={classes.control} style={stylos.circleStyle}>
+                  {this.state.jackpot_1}
+                 </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                 <Paper className={classes.control} style={stylos.circleStyle}>
+                  {this.state.jackpot_2}
+                 </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                 <Paper className={classes.control} style={stylos.circleStyle}>
+                  {this.state.jackpot_3}
+                 </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                 <Paper className={classes.control} style={stylos.circleStyle}>
+                  {this.state.jackpot_4}
+                 </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                 <Paper className={classes.control} style={stylos.circleStyle}>
+                  {this.state.jackpot_5}
+                 </Paper>
+                </Grid>
+                <Grid item xs={1}/>
+              </Grid> 
                </Grid>
             </Grid>
           </Paper>
         </Grid>
+      </Grid>  
         
         <Grid container className={classes.demo} justify="center">
         <Grid item xs={2}/>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
         <Paper className={classes.control}>
         <section style={{padding: 20}}>
          <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
           <Grid item xs={10} style={{...stylos.topperBlue}}>
            <Typography component="div" variant="headline" gutterBottom>
-            EuroMillions {' '}<FormLabel>Regular Jackpot</FormLabel>{' '}
+            EuroMillions  GO!{' '}<FormLabel>Regular Jackpot</FormLabel>{' '}
             <FormControl component="fieldset">
           <FormControlLabel 
             control={
@@ -146,7 +232,8 @@ class EuroMillions extends React.Component {
            </Typography>
           </Grid>
           <Grid item xs={2}>
-            <Button aria-label="delete" className={classes.button}>
+            <Button aria-label="delete" className={classes.button} onClick={this._delNumbers.bind(this)}>
+            Clear
               <DeleteIcon />
             </Button>
           </Grid>
@@ -174,7 +261,7 @@ class EuroMillions extends React.Component {
           </Grid>
           </Paper>
           </Grid>
-          <Grid item xs={2}/>
+          <Grid item xs={1}/>
         </Grid>
         
       </Grid>
@@ -183,8 +270,26 @@ class EuroMillions extends React.Component {
   }
 }
 
-EuroMillions.propTypes = {
+EuroMillionsGo.propTypes = {
   classes: PropTypes.object.isRequired,
+  emailID: PropTypes.string.isRequired,
+  userId: PropTypes.number.isRequired,
+  lotto: PropTypes.array.isRequired
+  //actions: PropTypes.object.isRequired
 };
+function mapStateToProps(state, ownProps) {
+  //debugger;
+  return {
+	emailID: state.customer.emailID,
+	userId: state.customer.userId,
+	lotto: state.customer.lotto
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EuroMillionsGo));
 
-export default withStyles(styles)(EuroMillions);
+

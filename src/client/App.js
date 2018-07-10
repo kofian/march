@@ -8,6 +8,21 @@ import store from './store';
 import Router from './router';
 import muiTheme from './muiTheme';
 
+import jwt_decode from 'jwt-decode';
+import localStorage from 'localStorage';
+import { AUTH_USER} from './Constants/actionTypes';
+import {customerTokenSuccess} from './Constants/Customer.Actions';
+
+//Authenticate
+const token = localStorage.getItem('token');
+if (token){
+    store.dispatch({ type: AUTH_USER });
+    const userId = jwt_decode(token).user_id;
+    const emailID = jwt_decode(token).email_id;
+    //debugger;
+    store.dispatch(customerTokenSuccess(token,userId,emailID));
+}
+
 class App extends React.Component {
   render() {
     return (

@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -17,6 +19,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import * as actions from 'Constants/Customer.Actions';
 
 
 //import styless from './serversPage.scss';
@@ -94,7 +97,9 @@ class EuroMillionsGoResults extends React.Component {
     jackpot_4: '0',
     jackpot_5: '0',
   };
-
+ componentDidMount() {
+    this.props.actions.fetchLastEuroGoMillionsResult();
+  }
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
@@ -127,39 +132,44 @@ class EuroMillionsGoResults extends React.Component {
         <Grid container className={classes.demo} justify="center" spacing={16} 
         style={{marginBottom: 20, marginTop:20}}>
         <Paper className={classes.control} style={{marginBottom: 20}}>
-         <Typography>EuroMillions Results for Tuesday 26 Jun 2018</Typography>
+         <Typography>EuroMillions GO! Results for: {new Date(this.props.euromillionsgo.drawnDate).toDateString()}</Typography>
          </Paper>
             <Grid item xs={2}/>
             <Grid item xs={8}>
             <Grid container className={classes.demo} justify="center">
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                34
+                {this.props.euromillionsgo.jackpot_0}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_2}
+                {this.props.euromillionsgo.jackpot_1}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_1}
+                {this.props.euromillionsgo.jackpot_2}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_2}
+                {this.props.euromillionsgo.jackpot_3}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_1}
+                {this.props.euromillionsgo.jackpot_4}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_2}
+                {this.props.euromillionsgo.jackpot_5}
+            </Paper>
+            </Grid>
+            <Grid item xs={1}>
+            <Paper className={classes.control} style={stylos.circleStyle}>
+                {this.props.euromillionsgo.jackpot_6}
             </Paper>
             </Grid>
             </Grid>
@@ -211,6 +221,19 @@ class EuroMillionsGoResults extends React.Component {
 
 EuroMillionsGoResults.propTypes = {
   classes: PropTypes.object.isRequired,
+  euromillionsgo: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(EuroMillionsGoResults);
+function mapStateToProps(state, ownProps) {
+ //debugger;
+  return {
+	euromillionsgo: state.customer.euromillionsgo
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(EuroMillionsGoResults));
+

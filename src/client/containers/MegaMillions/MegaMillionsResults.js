@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -17,6 +19,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import * as actions from 'Constants/Customer.Actions';
 
 
 //import styless from './serversPage.scss';
@@ -63,27 +66,23 @@ const stylos = {
 };
 
 let id = 0;
-function createData(tier, match, winners, amount) {
+function createData(tier, match, winners, amount, megaPlier_winners,megaPlier_amount) {
   id += 1;
-  return { id, tier, match, winners, amount };
+  return { id, tier, match, winners, amount,megaPlier_winners, megaPlier_amount};
 }
 
 const data = [
-  createData('i', '5 Numbers + 2 Stars', '0x', '€24,657,714.46'),
-  createData('ii', '5 Numbers + 1 Star', '0x', 'No hits'),
-  createData('iii', '5 Numbers + 0 Stars', '2x', '€431,632.70'),
-  createData('iv', '4 Numbers + 2 Stars', '19x', '€4,198.30'),
-  createData('v', '4 Numbers + 1 Star', '383x', '€222.10'),
-  createData('vi', '3 Numbers + 2 Stars', '1,168x', '€101.60'),
-  createData('vii', '4 Numbers + 0 Stars', '893x', '€75.40'),
-  createData('viii', '2 Numbers + 2 Stars', '18,939x', '€16.30'),
-  createData('ix', '3 Numbers + 1 Star', '20,424x', '€16.00'),
-  createData('x', '3 Numbers + 0 Stars', '43,238x', '€14.30'),
-  createData('xi', '1 Number + 2 Stars', '110,788x', '€7.90'),
-  createData('xii', '2 Numbers + 1 Star', '327,131x', '€8.00'),
-  createData('xiii', '2 Numbers + 0 Stars', '668,626x', '€4.80')
+  createData('i', '5 Numbers + Megaball', '0x', '€199,130,691.53','',''),
+  createData('ii', '5 Numbers', '1x', '€858,321.95', '1x','€3,433,287.79'),
+  createData('iii', '4 Numbers + Megaball', '15x', '€8,583.22','1x','€34,332.88'),
+  createData('iv', '4 Numbers', '411x', '€429.16','53x','€1,716.64'),
+  createData('v', '3 Numbers + Megaball', '1,015x', '€171.66','119x','€686.66'),
+  createData('vi', '3 Numbers','26,612x','€8.58','3,763x','€34.33'),
+  createData('vii', '2 Numbers + Megaball','22,276x','€8.58','3,159x','€34.33'),
+  createData('viii', '1 Number + Megaball','177,842x','€3.43','25,385x','€13.73'),
+  createData('ix', 'Megaball','439,561x','€1.72','63,026x','€6.87')
 ];
-class EuroMillionsResults extends React.Component {
+class MegaMillionsResults extends React.Component {
   state = {
     spacing: '16',
     jackpot_0: '0',
@@ -93,6 +92,10 @@ class EuroMillionsResults extends React.Component {
     jackpot_4: '0',
     jackpot_5: '0',
   };
+  
+  componentDidMount() {
+    this.props.actions.fetchLastMegaMillionsResult();
+  }
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
@@ -111,7 +114,7 @@ class EuroMillionsResults extends React.Component {
             <Grid container className={classes.demo} justify="center" style={{marginBottom: 20}}>
             <Grid item xs={2}/>
             <Grid item xs={6}>
-              <Typography component="p" style={stylos.resultsHead}>EUROMILLIONS RESULTS & WINNING NUMBERS</Typography>
+              <Typography component="p" style={stylos.resultsHead}>MEGAMILLIONS RESULTS & WINNING NUMBERS</Typography>
             </Grid>  
               <Grid item xs={4} >
                 <Typography component="p">
@@ -125,39 +128,39 @@ class EuroMillionsResults extends React.Component {
             
         <Grid container className={classes.demo} justify="center" spacing={16} style={{marginBottom: 20, marginTop:20}}>
         <Paper className={classes.control} style={{marginBottom: 20}}>
-         <Typography>EuroMillions Results for Tuesday 26 Jun 2018</Typography>
+         <Typography>MegaMillions Results for: {new Date(this.props.megamillions.drawnDate).toDateString()}</Typography>
          </Paper>
             <Grid item xs={2}/>
             <Grid item xs={8}>
             <Grid container className={classes.demo} justify="center">
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                34
+                {this.props.megamillions.jackpot_0}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_2}
+                {this.props.megamillions.jackpot_1}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_1}
+                {this.props.megamillions.jackpot_2}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_2}
+                {this.props.megamillions.jackpot_3}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_1}
+                {this.props.megamillions.jackpot_4}
             </Paper>
             </Grid>
             <Grid item xs={1}>
             <Paper className={classes.control} style={stylos.circleStyle}>
-                {this.state.jackpot_2}
+                {this.props.megamillions.jackpot_5}
             </Paper>
             </Grid>
             </Grid>
@@ -166,8 +169,7 @@ class EuroMillionsResults extends React.Component {
         </Grid>      
             
         <Grid container className={classes.demo} justify="center">
-        <Grid item xs={1}/>
-        <Grid item xs={8}>
+        
         <Paper className={classes.control}>
         <section style={{padding: 20}}>
          <Table className={classes.table}>
@@ -177,6 +179,8 @@ class EuroMillionsResults extends React.Component {
             <TableCell numeric>Match</TableCell>
             <TableCell numeric>Winners</TableCell>
             <TableCell numeric>Amount</TableCell>
+            <TableCell numeric>MegaPlier Winners</TableCell>
+            <TableCell numeric>MegaPlier Amount</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -189,6 +193,8 @@ class EuroMillionsResults extends React.Component {
                 <TableCell numeric>{n.match}</TableCell>
                 <TableCell numeric>{n.winners}</TableCell>
                 <TableCell numeric>{n.amount}</TableCell>
+                <TableCell numeric>{n.megaPlier_winners}</TableCell>
+                <TableCell numeric>{n.megaPlier_amount}</TableCell>
               </TableRow> 
             );
           })}
@@ -197,22 +203,6 @@ class EuroMillionsResults extends React.Component {
         </section>
           
           </Paper>
-          </Grid>
-          <Grid item xs={2}>
-           <Paper className={classes.control}>
-           <Typography variant="caption" align="center">
-             The EuroMillions draw
-           </Typography> 
-           <Divider />
-             <Typography component="p">
-             This week's EuroMillions draw was for a jackpot of 36 million Euros. 
-             The EuroMillions has two weekly draws, conducted on Tuesdays and Fridays, 
-             held at the Parisian studios of the French "Radio Broadcasting Company". 
-             The draw is broadcast live on French TV 2, under the watchful 
-             eye of Anne-Gaelle Riccio.
-             </Typography>
-           </Paper>
-          </Grid>
         </Grid>
         
       </Grid>
@@ -221,8 +211,21 @@ class EuroMillionsResults extends React.Component {
   }
 }
 
-EuroMillionsResults.propTypes = {
+MegaMillionsResults.propTypes = {
   classes: PropTypes.object.isRequired,
+  megamillions: PropTypes.object.isRequired
 };
+function mapStateToProps(state, ownProps) {
+ //debugger;
+  return {
+	megamillions: state.customer.megamillions
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(MegaMillionsResults));
 
-export default withStyles(styles)(EuroMillionsResults);
+

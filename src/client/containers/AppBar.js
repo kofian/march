@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
 import NavigationButton from 'components/NavigationButton';
-//import JackpotMenu from './JackpotMenu';
+import JackpotMenu from './Results/JackpotMenu';
 import EuroBar from './Bars/EuroBar';
 import EuroGoBar from './Bars/EuroGoBar';
 import MegaBar from './Bars/MegaBar';
@@ -153,6 +153,7 @@ class AppBar extends React.Component {
           
         </ToolbarGroup>
         <ToolbarGroup>
+        <JackpotMenu />
           <TextField
             hintText="Filter"
             style={{width: 120, marginLeft: 20, marginTop: 3, fontSize: 13}}

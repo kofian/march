@@ -5,15 +5,15 @@ import {Redirect, Route, Switch} from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 
 import AppBar from 'containers/AppBar';
-import AppMenu from 'containers/AppMenu';
+//import AppMenu from 'containers/AppMenu';
 import ModalsLayout from 'containers/ModalsLayout/index';
 import NotFound from 'containers/NotFound';
 import ServersPage from 'containers/ServersPage/index';
-import EuroMillionsBar from 'containers/LotteriesPage/EuroMillionsBar';
-import MegaMillionsLayout from 'containers/LotteriesPage/MegaMillionsLayout';
-import EuroMillionsLayout from 'containers/LotteriesPage/EuroMillionsLayout';
-import EuroMillionsGoLayout from 'containers/LotteriesPage/EuroMillionsGoLayout';
+import MegaMillionsLayout from 'containers/MegaMillions/MegaMillionsLayout';
+import EuroMillionsLayout from 'containers/EuroMillions/EuroMillionsLayout';
+import EuroMillionsGoLayout from 'containers/EuroMillionsGO/EuroMillionsGoLayout';
 import ProgressBar from 'components/ProgressBar';
+import LoginMenu from 'containers/Authenticate/LoginMenu';
 
 export class AppLayout extends React.Component {
   static propTypes = {
@@ -22,12 +22,12 @@ export class AppLayout extends React.Component {
 
   render() {
     const {loading} = this.props;
-
+     //<AppMenu />
     return (
       <section>
         <Paper zDepth={1} style={{position: 'fixed', width: '100%', zIndex: 10}}>
           <AppBar>
-            <AppMenu />
+            <LoginMenu />
           </AppBar>
           {loading && <ProgressBar />}
         </Paper>
@@ -38,6 +38,7 @@ export class AppLayout extends React.Component {
             <Route exact path="/megamillionslayout" name="megamillions" component={MegaMillionsLayout} />
             <Route exact path="/euromillionsgolayout" name="euromillionsgo" component={EuroMillionsGoLayout} />
             <Route exact path="/users" name="home-users" component={NotFound} />
+            <Route exact path="/adminpage" name="admin_page" component={ServersPage} />
             <Redirect to="/" />
           </Switch>
         </section>

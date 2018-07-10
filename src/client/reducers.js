@@ -3,9 +3,11 @@ import {routerReducer} from 'react-router-redux';
 
 import ApiReducer from 'api/reducer';
 import ModalsLayoutReducer from 'containers/ModalsLayout/reducer';
+import CustomerReducer from 'Constants/Customer.Reducer';
 
 export default combineReducers({
   modals: ModalsLayoutReducer,
   routing: routerReducer,
-  api: ApiReducer
+  api: ApiReducer,
+  customer: CustomerReducer
 });
