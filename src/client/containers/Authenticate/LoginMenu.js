@@ -111,6 +111,7 @@ LoginMenu.contextTypes = {
 };
 
 LoginMenu.propTypes = {
+  auth_token: PropTypes.string.isRequired,
   actions: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
   emailID: PropTypes.string.isRequired,
@@ -120,6 +121,7 @@ LoginMenu.propTypes = {
 function mapStateToProps(state, ownProps) {
  //debugger;
   return {
+  auth_token: state.customer.auth_token,
 	userId: state.customer.userId,
 	emailID: state.customer.emailID,
 	lotto: state.customer.lotto
