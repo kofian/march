@@ -60,13 +60,15 @@ export class ServersPage extends React.Component {
   }
   
   componentDidMount() {
+     if (this.props.auth_token){
     this.props.actions.fetchAllCustomers();
     this.props.actions.fetchLottoWins();
+     }
     //this.props.apiGetServers();
     //setTimeout(() => this.props.apiGetServers(), 1500);
   }
   _delText(){
-    debugger
+    //debugger
     this.setState({email: ''});
     this.setState({password: ''});
     this.setState({password_confirmation: ''});
@@ -161,6 +163,7 @@ ServersPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 ServersPage.propTypes = {
+  auth_token: PropTypes.string.isRequired,
   actions: PropTypes.object.isRequired,
   lotto_customers: PropTypes.array.isRequired,
   lotto_wins: PropTypes.array.isRequired,
@@ -177,6 +180,7 @@ ServersPage.defaultProps = {
   
 function mapStateToProps(state) {
   return {
+    auth_token: state.customer.auth_token,
     lotto_customers: state.customer.lotto_customers,
     lotto_wins: state.customer.lotto_wins,
     servers: state.api.getIn(['data', 'servers']),
