@@ -11,7 +11,7 @@ import muiTheme from './muiTheme';
 import jwt_decode from 'jwt-decode';
 import localStorage from 'localStorage';
 import { AUTH_USER} from './Constants/actionTypes';
-import {customerTokenSuccess,fetchUserLotto} from './Constants/Customer.Actions';
+import {customerTokenSuccess,fetchUserLotto,fetchLottoWins} from './Constants/Customer.Actions';
 
 //Authenticate
 const token = localStorage.getItem('token');
@@ -22,6 +22,7 @@ if (token){
     //debugger;
     store.dispatch(customerTokenSuccess(token,userId,emailID));
     store.dispatch(fetchUserLotto(userId));
+    store.dispatch(fetchLottoWins());
 }
 
 class App extends React.Component {

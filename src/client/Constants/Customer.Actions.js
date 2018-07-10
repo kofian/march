@@ -27,6 +27,7 @@ export function fetchProfilesSuccess(profile) {
         const emailID = jwt_decode(response.data.auth_token).email_id;
         dispatch(customerTokenSuccess(response.data.auth_token,userId,emailID));
         dispatch(fetchUserLotto(userId)); 
+        dispatch(fetchLottoWins());
         //toastr.remove();
         toastr.success('Logged In');
         //dispatch(fetchCustomerProfiles(userId,MAPI_HEADERS));
